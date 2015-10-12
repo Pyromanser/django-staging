@@ -48,12 +48,12 @@ class Command(StagingBaseCommand):
                 app_label, model_label = app_label.split('.')
                 try:
                     models = [get_model(app_label, model_label)]
-                except LookupError, e:
+                except LookupError as e:
                     raise CommandError(e)
             except ValueError:
                 try:
                     app = get_app(app_label)
-                except (ImproperlyConfigured, LookupError), e:
+                except (ImproperlyConfigured, LookupError) as e:
                     raise CommandError(e)
                 models = get_models(app)
 
@@ -73,7 +73,7 @@ class Command(StagingBaseCommand):
                                                              meta.app_label.lower(),
                                                              meta.object_name.lower())
                 self.move_files(model)
-                print 'saving %s' % model_name
+                print('saving %s' % model_name)
                 subprocess.call(['python', 'manage.py', 'dumpdata', model_name, '--indent=2'],
                                 stdout=open(fixtures_path, 'w'))
 

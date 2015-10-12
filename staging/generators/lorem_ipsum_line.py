@@ -2,7 +2,7 @@ import random
 from django.core.exceptions import ValidationError
 from django.db import models
 from django import forms
-from django.contrib.webdesign import lorem_ipsum
+from . import lorem_ipsum
 from staging.generators import BaseGenerator
 
 

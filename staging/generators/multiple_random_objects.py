@@ -26,7 +26,7 @@ class Generator(BaseGenerator):
         objects_count = random.randint(form_data.get('min_objects', 1), form_data.get('max_objects', 1))
         m2m_dict = getattr(obj, '_m2m', {})
         m2m_dict[field.name] = []
-        for x in xrange(objects_count):
+        for x in range(objects_count):
             m2m_dict[field.name].append(self._generate(obj, field.name))
         setattr(obj, '_m2m', m2m_dict)
 

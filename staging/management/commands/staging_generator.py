@@ -30,5 +30,5 @@ class Command(BaseCommand):
             settings.GENERATORS_DIRS.append(options.get('generators_dir'))
         for directory in settings.GENERATORS_DIRS:
             if not os.path.isdir(directory):
-                print '%s generators directory does not exist' % directory
+                print('%s generators directory does not exist' % directory)
         call_command('runserver')
