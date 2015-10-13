@@ -1,6 +1,6 @@
+import six
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
-from django.apps import apps
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
@@ -8,9 +8,11 @@ from django.utils.translation import ugettext_lazy as _
 from staging.forms import GeneratorForm
 from staging.utils import get_options_form, get_generator_instance
 
-
-get_model = apps.get_model
-
+try:
+    from django.db.models import get_model
+except ImportError:
+    from django.apps import apps
+    get_model = apps.get_model
 
 @staff_member_required
 def data_generator(request, _module, _class):
@@ -40,7 +42,7 @@ def data_generator(request, _module, _class):
     if all_valid:
         info, is_error = main_form.generate(options)
         if is_error:
-            messages.error(request, info)
+            messages.error(request, six.u(info))
         else:
             messages.success(request, _(u'Generated %s objects' % info))
             return redirect('admin:%s_%s_changelist' % (_module, _class))
@@ -58,4 +60,4 @@ def ajax_options(request, field_name, generator_slug):
     """
     generator = get_generator_instance(generator_slug)
     form = get_options_form(generator, field_name)
-    return HttpResponse(form or '')
+    return HttpResponse(six.u(form or ''))

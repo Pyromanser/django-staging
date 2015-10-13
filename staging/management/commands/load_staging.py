@@ -14,6 +14,11 @@ except ImportError:
 else:
     get_apps = lambda: [a.module for a in apps.get_app_configs()]
 
+try:
+    input = raw_input
+except NameError:
+    pass
+
 
 class Command(StagingBaseCommand):
     do_system_checks = True

@@ -8,6 +8,12 @@ import os
 from staging.management.commands import StagingBaseCommand
 
 
+try:
+    input = raw_input
+except NameError:
+    pass
+
+
 class Command(StagingBaseCommand):
     do_system_checks = True
     option_list = BaseCommand.option_list + (
@@ -18,7 +24,7 @@ class Command(StagingBaseCommand):
     def handle(self, *args, **options):
         for db_key in settings.DATABASES.keys():
             if settings.DATABASES[db_key]['ENGINE'] != 'django.db.backends.sqlite3':
-                if input('Database engine is not SQLite. Do you wish run reset? [y/N]') != 'y':
+                if six.input('Database engine is not SQLite. Do you wish run reset? [y/N]') != 'y':
                     continue
             db_file = settings.DATABASES[db_key]['NAME']
             if os.path.exists(db_file):

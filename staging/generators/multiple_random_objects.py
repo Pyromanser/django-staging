@@ -5,6 +5,12 @@ from django import forms
 from staging.generators import BaseGenerator
 
 
+try:
+    range = xrange
+except NameError:
+    pass
+
+
 class M2MForm(forms.Form):
     min_objects = forms.IntegerField()
     max_objects = forms.IntegerField()
